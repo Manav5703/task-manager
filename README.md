@@ -6,7 +6,7 @@ A full-stack task management application built with modern web technologies. Thi
 
 The project is organized into two main components:
 
-- `frontend/`: Contains the client-side application
+- `frontend/`: Contains the client-side application built with Angular
 - `api/`: Contains the server-side application
 
 ## Features
@@ -21,10 +21,11 @@ The project is organized into two main components:
 ## Technologies Used
 
 ### Frontend
-- React.js
-- Next.js
-- Tailwind CSS
-- Axios for API communication
+- Angular
+- TypeScript
+- Angular Material UI
+- RxJS
+- SCSS for styling
 
 ### Backend
 - Node.js
@@ -39,6 +40,7 @@ The project is organized into two main components:
 - Node.js (v14 or higher)
 - npm or yarn
 - MongoDB
+- Angular CLI (`npm install -g @angular/cli`)
 
 ### Installation
 
@@ -62,7 +64,7 @@ The project is organized into two main components:
 
 4. Set up environment variables:
    - Create `.env` file in the api directory
-   - Create `.env.local` file in the frontend directory
+   - Create `environment.ts` and `environment.prod.ts` files in the frontend/src/environments directory
 
 ### Running the Application
 
@@ -75,11 +77,11 @@ The project is organized into two main components:
 2. Start the Frontend development server:
    ```bash
    cd frontend
-   npm run dev
+   ng serve
    ```
 
 The application will be available at:
-- Frontend: http://localhost:3000
+- Frontend: http://localhost:4200
 - API: http://localhost:5000
 
 ## Contributing
