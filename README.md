@@ -82,7 +82,6 @@ The project is organized into two main components:
 
 The application will be available at:
 - Frontend: http://localhost:4200
-- API: http://localhost:5000
 
 ## Contributing
 
