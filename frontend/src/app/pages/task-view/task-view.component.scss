@@ -1,0 +1,197 @@
+@import '../../../main-styles.scss';
+
+.task-manager-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  max-width: 1000px;
+  max-height: 600px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  background: white;
+  padding: 42px;
+  border-radius: 15px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.tasks-list-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 42px;
+  border-radius: 15px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background: $light;
+}
+
+// Scrollable list menu with custom scrollbar
+.list-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  flex-grow: 1;
+  max-height: 70%; 
+  overflow-y: auto; 
+  position: relative;
+
+  // WebKit (Chrome, Safari, Edge) scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px; // Width of the scrollbar
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; // No background for the track
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $soft-gray; // Color of the scrollbar thumb
+    border-radius: 10px; // Rounded edges
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: darken($soft-gray, 10%); // Slightly darker on hover
+  }
+
+  // Firefox scrollbar styling
+  scrollbar-width: thin; // Thin scrollbar
+  scrollbar-color: rgb(214, 211, 211) transparent; // Thumb color and transparent track
+}
+
+.list-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 5px;
+  color: $dark-gray;
+
+  &:hover {
+    background-color: lighten($accent-blue, 30%);
+  }
+
+  &.is-active {
+    background: $accent-blue;
+    color: white;
+  }
+}
+
+// Scrollable tasks list with custom scrollbar
+.tasks-list-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 42px;
+  border-radius: 15px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background: $light;
+
+  .task-list-wrapper {
+    flex-grow: 1;
+    max-height: 73%; 
+    overflow-y: auto; 
+    position: relative;
+
+    // WebKit (Chrome, Safari, Edge) scrollbar styling
+    &::-webkit-scrollbar {
+      width: 8px; // Width of the scrollbar
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent; // No background for the track
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $soft-gray; // Color of the scrollbar thumb
+      border-radius: 25px; // Rounded edges
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: darken($soft-gray, 10%); // Slightly darker on hover
+    }
+
+    // Firefox scrollbar styling
+    scroll-behavior: smooth;
+    scrollbar-width: thin; // Thin scrollbar
+    scrollbar-color: rgb(214, 211, 211) transparent; // Thumb color and transparent track
+  }
+}
+
+.task {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 7px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  border: 1px solid $soft-gray;
+  transition: all 0.3s ease;
+
+  &:not(.completed) {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 0 2px lighten($accent-blue, 30%);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  &.completed {
+    background: lighten($muted-blue, 40%);
+    border-color: $muted-blue;
+    transform: scale(0.98);
+    opacity: 90%;
+
+    p {
+      color: $dark-gray;
+      position: relative;
+      padding-left: 25px;
+
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $accent-blue;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.circle-add-button {
+  height: 50px;
+  width: 50px;
+  background: $primary;
+  position: absolute;
+  bottom: 35px;
+  right: 35px;
+  border: none;
+  border-radius: 50px;
+
+  &:hover {
+    background-color: darken($accent-blue, 15%);
+  }
+}
+
+.empty-state-text {
+  font-size: 20px;
+  color: #6d6a6a;
+  text-align: center;
+  margin-top: 180px;
+  padding-top: 190px 190px 190px;
+}

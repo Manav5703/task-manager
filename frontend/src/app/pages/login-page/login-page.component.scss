@@ -1,0 +1,18 @@
+.login-box {
+    padding: 35px;
+    background: white;
+    border-radius: 15px;
+}
+
+.is-clickable {
+    cursor: pointer; // Makes the eye icon look clickable
+    user-select: none; // Prevents text selection on click
+}
+
+.control.has-icons-right .icon.is-right {
+    height: 100%; // Ensures the icon aligns properly with the input
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px; // Adds some padding for better spacing
+}

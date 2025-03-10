@@ -1,0 +1,96 @@
+// main-styles.scss
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+// Colors
+$soft-gray: #E5E7EB;
+$muted-blue: #6B7280;
+$accent-blue: #3B82F6;
+$dark-gray: #374151;
+$black: #090b0e;
+$light: #f8f8f8;
+$success: #10B981;
+$warning: #F59E0B;
+$error: #EF4444;
+
+// Bulma overrides
+$family-sans-serif: "Funnel Sans", sans-serif;
+$primary: $accent-blue;
+$link: $muted-blue;
+$input-placeholder-color: $dark-gray;  // Darker placeholder
+$control-border-width: 2px;
+$input-border-color: $soft-gray;       // Subtle border
+$input-shadow: 0 2px 4px rgba($black, 0.05);  // Soft shadow
+
+// Global styles
+:root {
+    --bulma-primary-h: 143deg;
+    --bulma-primary-l: 36%;
+  }
+html {
+  background: linear-gradient(to right top, $soft-gray, #A3BFFA, $muted-blue);
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  color: $dark-gray; 
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-family: $family-sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 30px;  
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: $primary;
+}
+
+// Input styles
+.input {
+  &.has-background-light {
+    background: $light;
+    color: $black;
+    border-color: $soft-gray;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: $accent-blue;
+      box-shadow: 0 0 0 2px rgba($accent-blue, 0.2);
+    }
+
+    &::placeholder {
+      color: $dark-gray;  // Matches $input-placeholder-color
+      opacity: 1;
+    }
+  }
+}
+
+// Button styles
+.button {
+  &.is-primary {
+    background: $accent-blue;
+    color: white;
+    border: none;
+
+    &:hover {
+      background: darken($accent-blue, 10%);
+    }
+  }
+}
+
+// Card-like containers (e.g., login-box)
+.login-box {
+  padding: 35px;
+  background: $light;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba($black, 0.1);
+}
