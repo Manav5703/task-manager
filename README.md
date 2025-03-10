@@ -71,7 +71,7 @@ The project is organized into two main components:
 1. Start the API server:
    ```bash
    cd api
-   npm run dev
+   nodemon app.js
    ```
 
 2. Start the Frontend development server:
