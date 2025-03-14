@@ -1,8 +1,0 @@
-[build]
-  command = "cd frontend && npm install && npx ng build --configuration production"
-  publish = "frontend/dist/frontend"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200 
