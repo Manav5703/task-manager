@@ -1,6 +1,6 @@
 <div class="centered-content">
     <div class="login-box">
-        <h1 class="title has-text-primary">Login</h1>
+        <h1 class="title has-text-primary">Sign Up</h1>
         
         <!-- Error message display -->
         <div class="notification is-danger" *ngIf="errorMessage">
@@ -18,7 +18,7 @@
             </div>
             <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                    <input #pwInput class="input has-background-light has-text-black" [type]="showPassword ? 'text' : 'password'" placeholder="Password">
+                    <input #pwInput class="input has-background-light has-text-black"  [type]="showPassword ? 'text' : 'password'" placeholder="Password">
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
@@ -31,13 +31,13 @@
         <br>
         <div class="field is-pulled-right">
             <p class="control">
-                <button class="button is-primary has-text-white" (click)="onLoginButtonClicked(emailInput.value, pwInput.value)">
-                    Login
+                <button class="button is-primary has-text-white" (click)="onSignUpButtonClicked(emailInput.value, pwInput.value)">
+                    Sign Up
                 </button>
             </p>
         </div>
         <div class="field has-text-centered mt-4">
-            <p>Don't have an account? <a routerLink="/signup" class="has-text-primary has-text-weight-bold">Sign up</a></p>
+            <p>Already have an account? <a routerLink="/login" class="has-text-primary has-text-weight-bold">Login</a></p>
         </div>
     </div>
 </div>

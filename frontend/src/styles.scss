@@ -1,3 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'main-styles.scss';
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+/* Global font and styling rules */
+* {
+  font-family: "Funnel Sans", sans-serif;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #EBF4FF 0%, #C3DAFE 50%, #4C51BF 100%);
+  background-attachment: fixed;
+  color: #374151;
+}
+
+/* Ensure consistent styling for all routes */
+.modal-box {
+  padding: 35px;
+  background: #f8f8f8;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(9, 11, 14, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Consistent button styling */
+.button {
+  font-family: "Funnel Sans", sans-serif !important;
+  font-weight: 500;
+}
+
+/* Consistent input styling */
+.input {
+  font-family: "Funnel Sans", sans-serif !important;
+}
+
+/* Consistent text styling */
+p, h1, h2, h3, h4, h5, h6, span, a, button, input {
+  font-family: "Funnel Sans", sans-serif !important;
+}

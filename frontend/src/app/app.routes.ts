@@ -1,5 +1,12 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SignupPageComponent } from './pages/signup-page/signup-page.component';
+import { TaskViewComponent } from './pages/task-view/task-view.component';
+import { NewListComponent } from './pages/new-list/new-list.component';
+import { NewTaskComponent } from './pages/new-task/new-task.component';
+import { EditListComponent } from './pages/edit-list/edit-list.component';
+import { EditTaskComponent } from './pages/edit-task/edit-task.component';
 
 export const routes: Routes = [
   {
@@ -9,26 +16,45 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./pages/login-page/login-page.component').then(m => m.LoginPageComponent)
+    component: LoginPageComponent
+  },
+  {
+    path: 'signup',
+    component: SignupPageComponent
   },
   {
     path: 'lists',
-    loadComponent: () => import('./pages/task-view/task-view.component').then(m => m.TaskViewComponent),
+    component: TaskViewComponent,
     canActivate: [authGuard]
   },
   {
     path: 'lists/:listId',
-    loadComponent: () => import('./pages/task-view/task-view.component').then(m => m.TaskViewComponent),
+    component: TaskViewComponent,
     canActivate: [authGuard]
   },
   {
     path: 'new-list',
-    loadComponent: () => import('./pages/new-list/new-list.component').then(m => m.NewListComponent),
+    component: NewListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'edit-list/:listId',
+    component: EditListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'lists/:listId/edit-task/:taskId',
+    component: EditTaskComponent,
     canActivate: [authGuard]
   },
   {
     path: 'lists/:listId/new-task',
-    loadComponent: () => import('./pages/new-task/new-task.component').then(m => m.NewTaskComponent),
+    component: NewTaskComponent,
     canActivate: [authGuard]
+  },
+  // Catch-all route to redirect to login
+  {
+    path: '**',
+    redirectTo: '/login'
   }
 ];

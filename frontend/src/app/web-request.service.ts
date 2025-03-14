@@ -37,9 +37,19 @@ export class WebRequestService {
       catchError(this.handleError.bind(this))
     );
   }
-
   login(email: string, password: string) {
     return this.http.post(`${this.ROOT_URL}/users/login`, {
+      email,
+      password
+    }, {
+      observe: 'response'
+    }).pipe(
+      catchError(this.handleError.bind(this))
+    );
+  }
+
+  signup(email: string, password: string) {
+    return this.http.post(`${this.ROOT_URL}/users`, {
       email,
       password
     }, {

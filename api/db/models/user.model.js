@@ -44,7 +44,7 @@ UserSchema.methods.generateAccessAuthToken = function() {
     const user = this;
     return new Promise((resolve, reject) => {
         // create JWT token
-        jwt.sign({_id: user._id.toHexString()}, jwtSecret, {expiresIn: "10m"}, (err, token) => {
+        jwt.sign({_id: user._id.toHexString()}, jwtSecret, {expiresIn: "15m"}, (err, token) => {
             if(!err){
                 resolve(token);
             } else {

@@ -2,19 +2,30 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { HttpResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
   showPassword: boolean = false; // Tracks password visibility
+  errorMessage: string = '';
+  
   constructor(private authService: AuthService, private router: Router) {}
 
   onLoginButtonClicked(email: string, password: string) {
+    if (!email || !password) {
+      this.errorMessage = 'Please enter both email and password';
+      return;
+    }
+    
+    this.errorMessage = '';
+    console.log('Attempting login with:', { email });
+    
     this.authService.login(email, password).subscribe({
       next: (res: HttpResponse<any>) => {
         console.log('Login Response:', {
@@ -36,6 +47,7 @@ export class LoginPageComponent {
       },
       error: (err) => {
         console.error('Login failed:', err);
+        this.errorMessage = 'Login failed. Please check your credentials and try again.';
       }
     });
   }

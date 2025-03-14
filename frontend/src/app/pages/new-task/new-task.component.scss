@@ -1,8 +1,16 @@
-.modal-box {
-    min-height: 200px;
-    width: 100%;
-    max-width: 580px;
-    background: white;
-    border-radius: 15px;
-    padding: 35px;
+@import '../../../../main-styles.scss';
+
+// The modal-box styling is now handled in the global styles.scss file
+
+// Additional component-specific styling
+.title {
+  margin-bottom: 20px;
+}
+
+.input {
+  margin-top: 10px;
+}
+
+.buttons {
+  margin-top: 10px;
 }
