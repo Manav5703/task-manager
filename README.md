@@ -1,6 +1,85 @@
-# Task Manager
+# Task Manager Application
 
-A full-stack task management application built with modern web technologies. This application helps users organize and track their tasks efficiently.
+A full-stack task management application built with Angular and Node.js.
+
+## Features
+
+- User authentication (signup, login, logout)
+- Create, read, update, and delete task lists
+- Create, read, update, and delete tasks within lists
+- Mark tasks as completed/incomplete
+- Responsive design for mobile and desktop
+
+## Deployment Instructions
+
+### Frontend Deployment (Netlify)
+
+1. Install Netlify CLI:
+   ```
+   npm install -g netlify-cli
+   ```
+
+2. Login to Netlify:
+   ```
+   netlify login
+   ```
+
+3. Build and deploy:
+   ```
+   npm run deploy:netlify
+   ```
+   
+   Or manually:
+   ```
+   npm run build:prod
+   netlify deploy --prod
+   ```
+
+4. Alternatively, deploy via Netlify website:
+   - Go to [Netlify](https://www.netlify.com/)
+   - Sign up or log in
+   - Drag and drop the `dist/frontend` folder to deploy
+   - Or connect your GitHub repository for continuous deployment
+
+### Backend Deployment
+
+1. Deploy your backend API to a service like:
+   - [Render](https://render.com/)
+   - [Railway](https://railway.app/)
+   - [Heroku](https://www.heroku.com/)
+
+2. Update the API URL in `environment.prod.ts`:
+   ```typescript
+   export const environment = {
+     production: true,
+     apiUrl: 'https://your-backend-api.com'
+   };
+   ```
+
+3. For MongoDB, use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for database hosting.
+
+## Development Setup
+
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the frontend:
+   ```
+   npm start
+   ```
+4. Start the backend:
+   ```
+   npm run server:dev
+   ```
+
+## Technologies Used
+
+- **Frontend**: Angular, SCSS, Bulma CSS
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Authentication**: JWT
 
 ## Project Structure
 
@@ -8,30 +87,6 @@ The project is organized into two main components:
 
 - `frontend/`: Contains the client-side application built with Angular
 - `api/`: Contains the server-side application
-
-## Features
-
-- User authentication and authorization
-- Create, read, update, and delete tasks
-- Task categorization and organization
-- Task status tracking
-- User-friendly interface
-- Responsive design for mobile and desktop
-
-## Technologies Used
-
-### Frontend
-- Angular
-- TypeScript
-- Angular Material UI
-- RxJS
-- SCSS for styling
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- JWT for authentication
 
 ## Getting Started
 

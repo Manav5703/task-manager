@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const { mongoose } = require('./db/mongoose');
 const jwt = require('jsonwebtoken');
+const config = require('./config');
 
 // load models
 const { List, Task, User } = require('./db/models');
@@ -19,6 +20,11 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token, x-refresh-token, _id");
     res.header('Access-Control-Expose-Headers', 'x-access-token, x-refresh-token');
     next();
+});
+
+// Health check endpoint for Render
+app.get('/healthz', (req, res) => {
+    res.status(200).send('OK');
 });
 
 // check whether the request has a valid JWT access token
@@ -325,6 +331,9 @@ let deleteTaskFromList = (_listId) => {
     });
 }
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Start the server
+const PORT = config.PORT;
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+    console.log(`Environment: ${config.NODE_ENV}`);
 });
