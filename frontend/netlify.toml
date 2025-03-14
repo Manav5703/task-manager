@@ -1,5 +1,5 @@
 [build]
-  command = "cd frontend && npm install && npm run build:netlify"
+  command = "cd frontend && npm install && npx ng build --configuration production"
   publish = "frontend/dist/frontend/browser"
 
 [[redirects]]
