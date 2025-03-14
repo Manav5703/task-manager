@@ -26,13 +26,17 @@ export class SignupPageComponent {
       this.errorMessage = 'Please enter both email and password';
       return;
     }
-    
+    if (password.length < 8) {
+      this.errorMessage = 'Password must be at least 8 characters';
+      return;
+    }
     this.errorMessage = '';
-    
     this.authService.signup(email, password).subscribe({
       next: (res: HttpResponse<any>) => {
-        console.log('Signup Response:', res);
-        // Navigate to lists page after successful signup
+        const accessToken = res.headers.get('x-access-token');
+        const refreshToken = res.headers.get('x-refresh-token');
+        console.log('Signup Response:', { accessToken, refreshToken, body: res.body });
+        this.authService.setTokens(accessToken, refreshToken); // Assuming AuthService has this method
         this.router.navigate(['/lists']);
       },
       error: (err) => {

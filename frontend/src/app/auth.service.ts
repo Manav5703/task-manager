@@ -44,6 +44,11 @@ export class AuthService {
     );
   }
 
+  setTokens(accessToken: string | null, refreshToken: string | null) {
+    if (accessToken) localStorage.setItem('x-access-token', accessToken);
+    if (refreshToken) localStorage.setItem('x-refresh-token', refreshToken);
+  }
+
   logout() {
     this.removeSession();
     console.log('User logged out, redirecting to login page');
