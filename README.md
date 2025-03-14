@@ -1,5 +1,8 @@
 # Task Manager Application
 
+## Live Demo
+You can view the live version of the web application at [https://tasknexlify.netlify.app/](https://tasknexlify.netlify.app/).
+
 A full-stack task management application built with Angular and Node.js.
 
 ## Features
@@ -152,4 +155,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Manav Patel - [GitHub](https://github.com/Manav5703) 
+Manav Patel - [GitHub](https://github.com/Manav5703)
