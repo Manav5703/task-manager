@@ -13,22 +13,6 @@ A full-stack task management application built with Angular and Node.js.
 - Mark tasks as completed/incomplete
 - Responsive design for mobile and desktop
 
-## Development Setup
-
-1. Clone the repository
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Start the frontend:
-   ```
-   npm start
-   ```
-4. Start the backend:
-   ```
-   npm run server:dev
-   ```
-
 ## Technologies Used
 
 - **Frontend**: Angular, SCSS, Bulma CSS
