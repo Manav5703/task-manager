@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'main-styles';
+@import 'main-styles';
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
 /* Remove duplicate font declarations since they're already in main-styles */
@@ -10,6 +10,13 @@ body, html {
   background: linear-gradient(135deg, #EBF4FF 0%, #C3DAFE 50%, #4C51BF 100%);
   background-attachment: fixed;
   color: #374151;
+  
+  /* Add responsive font sizing */
+  font-size: 16px;
+  
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 }
 
 /* Ensure consistent styling for all routes */
@@ -22,6 +29,27 @@ body, html {
   border: 1px solid rgba(255, 255, 255, 0.2);
   width: 100%;
   max-width: 500px;
+  
+  @media (max-width: 768px) {
+    padding: 25px;
+    border-radius: 12px;
+  }
+}
+
+/* Responsive adjustments for modals */
+.modal-card {
+  @media (max-width: 768px) {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* Fix for mobile overflow issues */
+.centered-content {
+  @media (max-width: 768px) {
+    overflow-x: hidden;
+  }
 }
 
 /* Consistent button styling */

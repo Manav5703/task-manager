@@ -1,6 +1,19 @@
 @use 'sass:color';
 @import '../../../main-styles';
 
+// Media query mixins
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 769px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -15,6 +28,10 @@
   z-index: 100;
   box-shadow: 0 2px 4px rgba($black, 0.03);
   
+  @include mobile {
+    padding: 0.75rem 1rem;
+  }
+  
   .app-logo {
     display: flex;
     align-items: center;
@@ -23,6 +40,11 @@
       height: 28px;
       width: auto;
       margin-right: 12px;
+      
+      @include mobile {
+        height: 24px;
+        margin-right: 8px;
+      }
     }
     
     .app-title {
@@ -31,6 +53,10 @@
       font-size: 20px;
       color: $primary-indigo;
       margin: 0;
+      
+      @include mobile {
+        font-size: 16px;
+      }
     }
   }
   
@@ -39,6 +65,11 @@
       font-weight: 500;
       border-radius: 6px;
       transition: all 0.2s ease;
+      
+      @include mobile {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
       
       &:hover {
         background: rgba($error, 0.1);
@@ -53,6 +84,10 @@
       
       .icon {
         margin-right: 4px;
+        
+        @include mobile {
+          margin-right: 2px;
+        }
       }
     }
   }
@@ -60,6 +95,10 @@
 
 .centered-content {
   padding-top: 70px; // Add padding to account for fixed header
+  
+  @include mobile {
+    padding-top: 60px;
+  }
 }
 
 // Section titles (Lists and Tasks)
@@ -71,6 +110,11 @@
   letter-spacing: 0.14em;
   margin-bottom: 0;
   text-transform: uppercase;
+  
+  @include mobile {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
 }
 
 // Action button styling (Add List)
@@ -87,6 +131,11 @@
   height: 42px;
   border-radius: 8px;
   font-weight: 500;
+  
+  @include mobile {
+    height: 38px;
+    font-size: 0.85rem;
+  }
   
   &:hover {
     background-color: color.adjust($primary-indigo, $lightness: -5%);
@@ -123,6 +172,13 @@
   justify-content: center;
   transition: all 0.2s ease;
   
+  @include mobile {
+    height: 42px;
+    width: 42px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
   &:hover {
     background-color: color.adjust($primary-indigo, $lightness: -5%);
     transform: translateY(-2px);
@@ -140,6 +196,10 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    
+    @include mobile {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -152,6 +212,14 @@
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba($black, 0.05), 0 10px 20px rgba($black, 0.03);
+  
+  @include mobile {
+    flex-direction: column;
+    max-height: none;
+    height: calc(100vh - 60px);
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 
 .sidebar {
@@ -162,6 +230,17 @@
   padding: 30px;
   border-radius: 12px 0 0 12px;
   border-right: 1px solid $light-gray;
+  
+  @include mobile {
+    width: 100%;
+    height: 40%;
+    min-height: 200px;
+    max-height: 300px;
+    padding: 15px;
+    border-radius: 0;
+    border-right: none;
+    border-bottom: 1px solid $light-gray;
+  }
 }
 
 // Sidebar header
@@ -170,6 +249,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  
+  @include mobile {
+    margin-bottom: 10px;
+  }
 }
 
 .list-menu {
@@ -177,6 +260,10 @@
   overflow-y: auto;
   margin-bottom: 20px;
   padding-right: 5px;
+  
+  @include mobile {
+    margin-bottom: 10px;
+  }
   
   // Custom scrollbar
   &::-webkit-scrollbar {
@@ -201,6 +288,12 @@
     color: $dark-gray;
     font-weight: 500;
     transition: all 0.2s ease;
+    
+    @include mobile {
+      padding: 8px 10px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
     
     &:hover {
       background-color: rgba($light-gray, 0.5);
@@ -229,12 +322,22 @@
   padding: 30px;
   border-radius: 0 12px 12px 0;
   background: $light-gray;
+  
+  @include mobile {
+    padding: 15px;
+    border-radius: 0;
+    height: 60%;
+  }
 
   .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    
+    @include mobile {
+      margin-bottom: 15px;
+    }
     
     // Dropdown styling
     .dropdown {
@@ -248,17 +351,10 @@
           height: 36px;
           width: 36px;
           padding: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           
-          &:hover {
-            background-color: $light-gray;
-            box-shadow: 0 2px 4px rgba($black, 0.05);
-          }
-          
-          .icon {
-            margin: 0;
+          @include mobile {
+            height: 32px;
+            width: 32px;
           }
         }
       }
@@ -307,6 +403,43 @@
   &::-webkit-scrollbar-thumb {
     background-color: rgba($medium-gray, 0.5);
     border-radius: 3px;
+  }
+  
+  @include mobile {
+    max-height: calc(100% - 100px);
+  }
+  
+  .task {
+    @include mobile {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    
+    .task-content {
+      @include mobile {
+        font-size: 0.9rem;
+      }
+      
+      .task-status-icon {
+        @include mobile {
+          margin-right: 8px;
+        }
+      }
+    }
+    
+    .task-buttons {
+      .button {
+        @include mobile {
+          height: 28px;
+          width: 28px;
+          padding: 0;
+          
+          .icon {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -439,6 +572,12 @@
   margin-top: 40px;
   font-size: 16px;
   line-height: 1.5;
+  
+  @include mobile {
+    font-size: 0.9rem;
+    padding: 10px;
+    text-align: center;
+  }
 }
 
 .loading-text {
@@ -492,6 +631,16 @@
       background: linear-gradient(90deg, $primary-indigo, $primary-purple);
       border-radius: 3px;
       transition: width 0.3s ease;
+    }
+  }
+  
+  @include mobile {
+    margin-bottom: 10px;
+  }
+  
+  .progress-stats {
+    @include mobile {
+      font-size: 0.85rem;
     }
   }
 }
@@ -560,5 +709,47 @@
         margin-top: 20px;
       }
     }
+  }
+}
+
+// Modal responsive styles
+.modal-box {
+  @include mobile {
+    padding: 20px;
+    
+    .title {
+      font-size: 1.25rem;
+      margin-bottom: 15px;
+    }
+    
+    .field {
+      margin-bottom: 15px;
+      
+      .label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+      
+      .input {
+        font-size: 0.9rem;
+        height: 2.5em;
+      }
+    }
+    
+    .buttons {
+      .button {
+        font-size: 0.9rem;
+        height: 2.5em;
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+    }
+  }
+}
+
+// Add a class for the logout text to hide on very small screens
+@media (max-width: 360px) {
+  .logout-text {
+    display: none;
   }
 }
