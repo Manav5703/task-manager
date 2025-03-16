@@ -15,7 +15,14 @@ app.use(bodyParser.json());
 
 // CORS headers middleware
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    // Allow requests from both localhost and the Netlify domain
+    const allowedOrigins = ['http://localhost:4200', 'https://taskflowpros.netlify.app'];
+    const origin = req.headers.origin;
+    
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+    
     res.header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token, x-refresh-token, _id");
     res.header('Access-Control-Expose-Headers', 'x-access-token, x-refresh-token');

@@ -1,7 +1,7 @@
 services:
   - type: web
     name: task-manager-api
-    env: node
+    runtime: node
     buildCommand: npm install
     startCommand: npm start
     envVars:

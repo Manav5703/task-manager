@@ -1,5 +1,5 @@
 @use 'sass:color';
-@import '../../../main-styles';
+@use '../../../main-styles' as *;
 
 .app-header {
   display: flex;
