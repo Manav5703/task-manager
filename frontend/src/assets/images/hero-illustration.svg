@@ -1,0 +1,59 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background elements -->
+  <circle cx="300" cy="200" r="150" fill="#E0E7FF" opacity="0.5"/>
+  <circle cx="350" cy="150" r="100" fill="#C7D2FE" opacity="0.5"/>
+  
+  <!-- Task board -->
+  <rect x="150" y="100" width="300" height="200" rx="16" fill="white" stroke="#E5E7EB" stroke-width="2"/>
+  
+  <!-- Board header -->
+  <rect x="150" y="100" width="300" height="40" rx="16" fill="#4F46E5" stroke="#4F46E5" stroke-width="2"/>
+  <rect x="170" y="115" width="80" height="10" rx="5" fill="white" opacity="0.8"/>
+  
+  <!-- Task columns -->
+  <rect x="160" y="150" width="85" height="140" rx="8" fill="#F3F4F6"/>
+  <rect x="255" y="150" width="85" height="140" rx="8" fill="#F3F4F6"/>
+  <rect x="350" y="150" width="85" height="140" rx="8" fill="#F3F4F6"/>
+  
+  <!-- Column headers -->
+  <rect x="170" y="160" width="65" height="10" rx="5" fill="#4B5563"/>
+  <rect x="265" y="160" width="65" height="10" rx="5" fill="#4B5563"/>
+  <rect x="360" y="160" width="65" height="10" rx="5" fill="#4B5563"/>
+  
+  <!-- Task cards in first column -->
+  <rect x="165" y="180" width="75" height="30" rx="6" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="172" y="188" width="40" height="6" rx="3" fill="#4F46E5"/>
+  <rect x="172" y="198" width="60" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <rect x="165" y="220" width="75" height="30" rx="6" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="172" y="228" width="50" height="6" rx="3" fill="#4F46E5"/>
+  <rect x="172" y="238" width="55" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <!-- Task cards in second column -->
+  <rect x="260" y="180" width="75" height="30" rx="6" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="267" y="188" width="45" height="6" rx="3" fill="#8B5CF6"/>
+  <rect x="267" y="198" width="60" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <rect x="260" y="220" width="75" height="30" rx="6" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="267" y="228" width="35" height="6" rx="3" fill="#8B5CF6"/>
+  <rect x="267" y="238" width="50" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <!-- Task cards in third column -->
+  <rect x="355" y="180" width="75" height="30" rx="6" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="362" y="188" width="40" height="6" rx="3" fill="#10B981"/>
+  <rect x="362" y="198" width="60" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <!-- Checkmark on completed task -->
+  <circle cx="375" cy="195" r="8" fill="#10B981"/>
+  <path d="M371 195L374 198L380 192" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="450" cy="80" r="20" fill="#C7D2FE"/>
+  <circle cx="150" cy="320" r="15" fill="#E0E7FF"/>
+  <circle cx="480" cy="280" r="12" fill="#8B5CF6" opacity="0.3"/>
+  <circle cx="120" cy="120" r="10" fill="#4F46E5" opacity="0.3"/>
+  
+  <!-- Abstract shapes -->
+  <path d="M500 150C520 170 520 200 500 220C480 240 450 240 430 220C410 200 410 170 430 150C450 130 480 130 500 150Z" fill="#8B5CF6" opacity="0.2"/>
+  <path d="M100 250C120 270 120 300 100 320C80 340 50 340 30 320C10 300 10 270 30 250C50 230 80 230 100 250Z" fill="#4F46E5" opacity="0.2"/>
+</svg> 

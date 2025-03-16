@@ -1,82 +1,128 @@
+@use 'sass:color';
 @import '../../../main-styles.scss';
 
-.login-box {
-    padding: 35px;
-    background: #f8f8f8;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(9, 11, 14, 0.1);
+.signup-box {
+    padding: 32px;
+    background: $white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba($black, 0.05), 0 10px 15px rgba($black, 0.03);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
+    transition: all 0.3s ease;
 }
 
-.title {
-    margin-bottom: 20px;
+.signup-header {
+    margin-bottom: 24px;
     text-align: center;
+    
+    .title {
+        margin-bottom: 8px;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: -0.02em;
+    }
+    
+    .subtitle {
+        color: $gray;
+        font-size: 14px;
+    }
 }
 
 .field {
     margin-bottom: 20px;
+    
+    .label {
+        margin-bottom: 6px;
+        font-weight: 500;
+        font-size: 13px;
+        color: $darker-gray;
+    }
+    
+    .input {
+        height: 42px;
+        box-shadow: none;
+        border: 1px solid $medium-gray;
+        transition: all 0.2s ease;
+        background-color: $white;
+        color: $darker-gray;
+        
+        &:focus {
+            border-color: $primary-indigo;
+            box-shadow: 0 0 0 2px rgba($primary-indigo, 0.1);
+        }
+        
+        &::placeholder {
+            color: $gray;
+            opacity: 0.7;
+        }
+    }
+    
+    .icon {
+        color: $gray;
+    }
 }
 
 .button {
-    margin-top: 10px;
-    width: 100%;
-}
-
-.error-message {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: $error;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 10px 0;
-    text-align: center;
-    border: 1px solid rgba(239, 68, 68, 0.2);
-}
-
-.is-clickable {
-    cursor: pointer; // Makes the eye icon look clickable
-    user-select: none; // Prevents text selection on click
-}
-
-.control.has-icons-right .icon.is-right {
-    height: 100%; // Ensures the icon aligns properly with the input
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 10px; // Adds some padding for better spacing
-}
-
-// Styling for the login link section
-.field.has-text-centered {
-    margin-top: 2rem;
-    clear: both; // Clear the float from the button
-    padding-top: 1rem;
-    border-top: 1px solid #f0f0f0;
+    height: 42px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
     
-    p {
-        font-size: 0.95rem;
-    }
-    
-    a {
-        transition: all 0.2s ease;
+    &.is-primary {
+        background: $primary-indigo;
         
         &:hover {
-            text-decoration: underline;
+            background: color.adjust($primary-indigo, $lightness: -5%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba($primary-indigo, 0.2);
+        }
+        
+        &:active {
+            transform: translateY(0);
+        }
+        
+        .icon {
+            margin-left: 6px;
         }
     }
 }
 
-// Fix for the button container
-.field.is-pulled-right {
-    margin-bottom: 1rem;
+.error-message {
+    background-color: rgba($error, 0.1);
+    color: $error;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    
+    i {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+}
+
+.is-clickable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.control.has-icons-right .icon.is-right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
 }
 
 // Responsive adjustments
 @media screen and (max-width: 768px) {
-    .login-box {
-        padding: 25px;
+    .signup-box {
+        padding: 24px;
         margin: 0 15px;
+        max-width: 100%;
     }
 }

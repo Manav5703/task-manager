@@ -2,8 +2,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { WebRequestService } from './web-request.service';
 import { Router } from '@angular/router';
-import { shareReplay, tap, catchError, throwError } from 'rxjs';
+import { shareReplay, tap, catchError } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,108 +19,138 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    console.log('AuthService initialized, isBrowser:', this.isBrowser);
   }
 
   login(email: string, password: string) {
+    console.log('AuthService: Attempting login for', email);
     return this.webService.login(email, password).pipe(
-      tap((res: any) => {
-        const accessToken = res.headers.get('x-access-token');
-        const refreshToken = res.headers.get('x-refresh-token');
-        const userId = res.body._id;
-
-        this.setSession(userId, accessToken, refreshToken);
+      tap((res: HttpResponse<any>) => {
+        console.log('AuthService: Login successful');
+        // The auth tokens will be in the header of this response
+        const accessToken = res.headers.get('x-access-token') || '';
+        const refreshToken = res.headers.get('x-refresh-token') || '';
+        this.setSession(res.body._id, accessToken, refreshToken);
+      }),
+      shareReplay(),
+      catchError(error => {
+        console.error('AuthService: Login failed', error);
+        return throwError(() => error);
       })
     );
   }
 
   signup(email: string, password: string) {
+    console.log('AuthService: Attempting signup for', email);
     return this.webService.signup(email, password).pipe(
-      tap((res: any) => {
-        const accessToken = res.headers.get('x-access-token');
-        const refreshToken = res.headers.get('x-refresh-token');
-        const userId = res.body._id;
-
-        this.setSession(userId, accessToken, refreshToken);
+      tap((res: HttpResponse<any>) => {
+        console.log('AuthService: Signup successful');
+        console.log('AuthService: Response headers:', {
+          'x-access-token': res.headers.get('x-access-token') ? 'present' : 'missing',
+          'x-refresh-token': res.headers.get('x-refresh-token') ? 'present' : 'missing'
+        });
+        console.log('AuthService: Response body:', res.body);
+        
+        // The auth tokens will be in the header of this response
+        const accessToken = res.headers.get('x-access-token') || '';
+        const refreshToken = res.headers.get('x-refresh-token') || '';
+        this.setSession(res.body._id, accessToken, refreshToken);
+      }),
+      shareReplay(),
+      catchError(error => {
+        console.error('AuthService: Signup failed', error);
+        return throwError(() => error);
       })
     );
   }
 
-  setTokens(accessToken: string | null, refreshToken: string | null) {
-    if (accessToken) localStorage.setItem('x-access-token', accessToken);
-    if (refreshToken) localStorage.setItem('x-refresh-token', refreshToken);
+  setTokens(accessToken: string, refreshToken: string) {
+    localStorage.setItem('x-access-token', accessToken);
+    localStorage.setItem('x-refresh-token', refreshToken);
   }
 
   logout() {
     this.removeSession();
-    console.log('User logged out, redirecting to login page');
     this.router.navigate(['/login']);
   }
 
   getAccessToken() {
-    if (!this.isBrowser) return null;
     return localStorage.getItem('x-access-token');
   }
 
   getRefreshToken() {
-    if (!this.isBrowser) return null;
     return localStorage.getItem('x-refresh-token');
   }
 
   getUserId() {
-    if (!this.isBrowser) return null;
     return localStorage.getItem('user-id');
   }
 
   setAccessToken(accessToken: string) {
-    if (!this.isBrowser) return;
     localStorage.setItem('x-access-token', accessToken);
   }
 
   isLoggedIn(): boolean {
     if (!this.isBrowser) return false;
     const token = this.getAccessToken();
-    return token != null && token.length > 0;
+    const userId = this.getUserId();
+    const isLoggedIn = token != null && token.length > 0 && userId != null;
+    console.log('isLoggedIn check:', isLoggedIn);
+    return isLoggedIn;
   }
 
   private setSession(userId: string, accessToken: string, refreshToken: string) {
-    if (!this.isBrowser) return;
-    localStorage.setItem('user-id', userId);
-    localStorage.setItem('x-access-token', accessToken);
-    localStorage.setItem('x-refresh-token', refreshToken);
+    try {
+      console.log('AuthService: Setting session for user', userId);
+      localStorage.setItem('user-id', userId);
+      localStorage.setItem('x-access-token', accessToken);
+      localStorage.setItem('x-refresh-token', refreshToken);
+      console.log('AuthService: Session set successfully');
+    } catch (error) {
+      console.error('AuthService: Error setting session', error);
+      throw error;
+    }
   }
 
   private removeSession() {
-    if (!this.isBrowser) return;
     localStorage.removeItem('user-id');
     localStorage.removeItem('x-access-token');
     localStorage.removeItem('x-refresh-token');
   }
 
-  getnewAccessToken() {
+  getNewAccessToken() {
+    console.log('AuthService: Getting new access token');
+    const refreshToken = this.getRefreshToken();
+    const userId = this.getUserId();
+    
+    if (!refreshToken || !userId) {
+      console.error('AuthService: Missing refresh token or user ID');
+      return new Observable(observer => {
+        observer.error('Missing authentication data');
+      });
+    }
+    
     return this.http.get(`${this.webService.ROOT_URL}/users/me/access-token`, {
       headers: {
-        'x-refresh-token': this.getRefreshToken() || '',
-        '_id': this.getUserId() || ''
-      }
-    });
-  }
-  
-  refreshAccessToken() {
-    console.log('Attempting to refresh access token');
-    return this.http.get<{ accessToken: string }>(`${this.webService.ROOT_URL}/users/me/access-token`, {
-      headers: {
-        'x-refresh-token': this.getRefreshToken() || '',
-        '_id': this.getUserId() || ''
-      }
+        'x-refresh-token': refreshToken,
+        '_id': userId
+      },
+      observe: 'response'
     }).pipe(
-      tap(response => {
-        console.log('New access token received:', response.accessToken);
-        this.setAccessToken(response.accessToken);
+      tap((res: HttpResponse<any>) => {
+        console.log('AuthService: New access token received');
+        const accessToken = res.headers.get('x-access-token') || '';
+        this.setAccessToken(accessToken);
       }),
       catchError(error => {
-        console.error('Error refreshing access token:', error);
-        return throwError(() => new Error('Token refresh failed'));
+        console.error('AuthService: Failed to get new access token', error);
+        return throwError(() => error);
       })
     );
+  }
+  
+  // Alias for getNewAccessToken to maintain compatibility
+  refreshAccessToken() {
+    return this.getNewAccessToken();
   }
 }

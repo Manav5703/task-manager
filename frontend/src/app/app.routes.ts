@@ -7,11 +7,12 @@ import { NewListComponent } from './pages/new-list/new-list.component';
 import { NewTaskComponent } from './pages/new-task/new-task.component';
 import { EditListComponent } from './pages/edit-list/edit-list.component';
 import { EditTaskComponent } from './pages/edit-task/edit-task.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/lists',
+    component: LandingPageComponent,
     pathMatch: 'full'
   },
   {
@@ -52,9 +53,9 @@ export const routes: Routes = [
     component: NewTaskComponent,
     canActivate: [authGuard]
   },
-  // Catch-all route to redirect to login
+  // Catch-all route to redirect to landing page
   {
     path: '**',
-    redirectTo: '/login'
+    redirectTo: '/'
   }
 ];

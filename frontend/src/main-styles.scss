@@ -1,35 +1,61 @@
 // main-styles.scss
-@import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@use 'sass:color';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&display=swap');
 
-// Colors
-$soft-gray: #E5E7EB;
-$muted-blue: #6B7280;
-$accent-blue: #3B82F6;
-$dark-gray: #374151;
-$black: #090b0e;
-$light: #f8f8f8;
+// Modern Color Palette
+$primary-blue: #3B82F6;
+$primary-indigo: #4F46E5;
+$primary-purple: #8B5CF6;
+$primary-teal: #0EA5E9;
+$primary-cyan: #06B6D4;
+
+$dark-blue: #1E40AF;
+$dark-indigo: #3730A3;
+$dark-purple: #6D28D9;
+$dark-teal: #0369A1;
+$dark-cyan: #0E7490;
+
+$light-blue: #DBEAFE;
+$light-indigo: #E0E7FF;
+$light-purple: #EDE9FE;
+$light-teal: #E0F2FE;
+$light-cyan: #CFFAFE;
+
 $success: #10B981;
 $warning: #F59E0B;
 $error: #EF4444;
+$info: #3B82F6;
 
-// Additional colors for gradient
-$gradient-start: #EBF4FF;
-$gradient-middle: #C3DAFE;
-$gradient-end: #4C51BF;
+$white: #FFFFFF;
+$off-white: #F9FAFB;
+$light-gray: #F3F4F6;
+$medium-gray: #E5E7EB;
+$gray: #9CA3AF;
+$dark-gray: #4B5563;
+$darker-gray: #374151;
+$black: #111827;
+
+// Gradient colors
+$gradient-start: #F9FAFB;
+$gradient-middle: #EEF2FF;
+$gradient-end: #E0E7FF;
 
 // Bulma overrides
-$family-sans-serif: "Funnel Sans", sans-serif;
-$primary: $accent-blue;
-$link: $muted-blue;
-$input-placeholder-color: $dark-gray;  // Darker placeholder
-$control-border-width: 2px;
-$input-border-color: $soft-gray;       // Subtle border
-$input-shadow: 0 2px 4px rgba($black, 0.05);  // Soft shadow
+$family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$family-heading: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$primary: $primary-indigo;
+$link: $primary-blue;
+$input-placeholder-color: $gray;
+$control-border-width: 1px;
+$input-border-color: $medium-gray;
+$input-shadow: none;
 
 // Global styles
 :root {
-    --bulma-primary-h: 143deg;
-    --bulma-primary-l: 36%;
+  --primary-color: #{$primary-indigo};
+  --primary-light: #{$light-indigo};
+  --primary-dark: #{$dark-indigo};
 }
 
 html {
@@ -41,23 +67,28 @@ html {
 
 body {
   height: 100%;
-  color: $dark-gray;
+  color: $darker-gray;
   font-family: $family-sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 // Global Bulma overrides
 .dropdown-content {
-  background-color: white !important;
-  color: $dark-gray !important;
+  background-color: $white !important;
+  color: $darker-gray !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
 .dropdown-item {
-  color: $dark-gray !important;
+  color: $darker-gray !important;
   background-color: transparent !important;
   
   &:hover {
-    background-color: rgba($accent-blue, 0.05) !important;
-    color: $accent-blue !important;
+    background-color: rgba($primary-indigo, 0.05) !important;
+    color: $primary-indigo !important;
   }
   
   &.has-text-danger, 
@@ -65,7 +96,7 @@ body {
     color: $error !important;
     
     &:hover {
-      color: darken($error, 10%) !important;
+      color: color.adjust($error, $lightness: -10%) !important;
       background-color: rgba($error, 0.05) !important;
     }
   }
@@ -81,66 +112,132 @@ body {
 }
 
 .title {
-  font-family: $family-sans-serif;
+  font-family: $family-heading;
   font-weight: 700;
   font-style: normal;
-  font-size: 30px;  
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: 28px;  
+  letter-spacing: -0.02em;
   color: $primary;
+}
+
+.subtitle {
+  font-family: $family-sans-serif;
+  font-weight: 500;
+  color: $dark-gray;
+  letter-spacing: -0.01em;
 }
 
 // Input styles
 .input {
+  background: $white;
+  color: $darker-gray;
+  border-color: $medium-gray;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: $primary-indigo;
+    box-shadow: 0 0 0 2px rgba($primary-indigo, 0.1);
+  }
+
+  &::placeholder {
+    color: $gray;
+    opacity: 0.7;
+  }
+  
+  &.is-medium {
+    height: 42px;
+    font-size: 1rem;
+  }
+  
   &.has-background-light {
-    background: $light;
-    color: $black;
-    border-color: $soft-gray;
-    transition: border-color 0.2s ease;
-
-    &:focus {
-      border-color: $accent-blue;
-      box-shadow: 0 0 0 2px rgba($accent-blue, 0.2);
-    }
-
-    &::placeholder {
-      color: $dark-gray;  // Matches $input-placeholder-color
-      opacity: 1;
-    }
+    background: $white;
+    color: $darker-gray;
   }
 }
 
 // Button styles
 .button {
+  border-radius: 6px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: all 0.2s ease;
+  
   &.is-primary {
-    background: $accent-blue;
+    background: $primary-indigo;
     color: white;
     border: none;
-    transition: all 0.2s ease;
 
     &:hover {
-      background: darken($accent-blue, 10%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba($black, 0.15);
+      background: color.adjust($primary-indigo, $lightness: -5%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba($primary-indigo, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  &.is-outlined {
+    border: 1px solid;
+    
+    &.is-primary {
+      border-color: $primary-indigo;
+      color: $primary-indigo;
+      
+      &:hover {
+        background-color: rgba($primary-indigo, 0.05);
+      }
     }
   }
 }
 
-// Card-like containers (e.g., login-box)
+// Card-like containers
 .login-box {
-  padding: 35px;
-  background: $light;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba($black, 0.1);
+  padding: 32px;
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba($black, 0.05), 0 10px 15px rgba($black, 0.03);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 // Task manager container
 .task-manager-container {
-  box-shadow: 0 15px 30px rgba($black, 0.15);
+  background: rgba($white, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba($black, 0.05), 0 10px 15px rgba($black, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
+}
+
+// App header
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  background: $white;
+  border-bottom: 1px solid $light-gray;
+  
+  .app-logo {
+    display: flex;
+    align-items: center;
+    
+    img {
+      height: 28px;
+      width: auto;
+      margin-right: 12px;
+    }
+    
+    .app-title {
+      font-family: $family-heading;
+      font-weight: 700;
+      font-size: 18px;
+      color: $primary-indigo;
+      margin: 0;
+    }
+  }
 }
 
 // Notification toast
@@ -149,22 +246,115 @@ body {
   bottom: -100px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.95);
-  color: $dark-gray;
-  padding: 12px 24px;
+  background-color: $white;
+  color: $darker-gray;
+  padding: 12px 20px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba($black, 0.05), 0 10px 15px rgba($black, 0.03);
   z-index: 1000;
   transition: bottom 0.3s ease;
-  border-left: 4px solid $success;
+  border-left: 3px solid $success;
   font-weight: 500;
   backdrop-filter: blur(10px);
   
   &.show {
-    bottom: 30px;
+    bottom: 24px;
   }
   
   &.error {
     border-left-color: $error;
+  }
+  
+  &.info {
+    border-left-color: $info;
+  }
+  
+  &.warning {
+    border-left-color: $warning;
+  }
+}
+
+// Landing page specific styles
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  .hero {
+    background: transparent;
+    
+    .hero-body {
+      padding: 3rem 1.5rem;
+    }
+  }
+  
+  .feature-card {
+    background: $white;
+    border-radius: 10px;
+    padding: 1.75rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba($black, 0.03);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px rgba($black, 0.05);
+    }
+    
+    .icon {
+      background: $light-indigo;
+      color: $primary-indigo;
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      
+      i {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+// Global utility classes
+.is-clickable {
+  cursor: pointer !important;
+  user-select: none !important;
+}
+
+// Form control styles
+.control.has-icons-right .icon.is-right {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+// Form styles
+.label {
+  color: $darker-gray;
+  font-weight: 500;
+}
+
+// Modal box for forms
+.modal-box {
+  padding: 32px;
+  background: $white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba($black, 0.05), 0 10px 15px rgba($black, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 450px;
+  
+  .title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: $primary-indigo;
+  }
+  
+  .buttons {
+    margin-top: 10px;
   }
 }

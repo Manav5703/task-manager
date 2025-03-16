@@ -1,43 +1,51 @@
 <div class="centered-content">
-    <div class="login-box">
-        <h1 class="title has-text-primary">Sign Up</h1>
-        
-        <!-- Error message display -->
-        <div class="notification is-danger" *ngIf="errorMessage">
-            <p>{{ errorMessage }}</p>
+    <div class="signup-box">
+        <div class="signup-header">
+            <h1 class="title">Create account</h1>
+            <p class="subtitle">Sign up to get started with your tasks</p>
         </div>
-        
-        <form>
+
+        <div *ngIf="errorMessage" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMessage }}
+        </div>
+
+        <form (ngSubmit)="onSignUpButtonClicked(email.value, password.value)">
             <div class="field">
-                <p class="control has-icons-left has-icons-right">
-                    <input #emailInput class="input has-background-light has-text-black" type="email" placeholder="Email">
+                <label class="label">Email</label>
+                <div class="control has-icons-left">
+                    <input #email class="input" type="email" placeholder="e.g. john@example.com">
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                     </span>
-                </p>
+                </div>
             </div>
+
             <div class="field">
-                <p class="control has-icons-left has-icons-right">
-                    <input #pwInput class="input has-background-light has-text-black"  [type]="showPassword ? 'text' : 'password'" placeholder="Password">
+                <label class="label">Password</label>
+                <div class="control has-icons-left has-icons-right">
+                    <input #password class="input" [type]="showPassword ? 'text' : 'password'" placeholder="Create a password">
                     <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                     </span>
-                    <span class="icon is-small is-right is-clickable" (click)="togglePasswordVisibility()">
+                    <span class="icon is-right is-clickable" (click)="togglePasswordVisibility()">
                         <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
                     </span>
-                </p>
+                </div>
+            </div>
+
+            <div class="field">
+                <button type="submit" class="button is-primary is-fullwidth" [class.is-loading]="isLoading" [disabled]="isLoading">
+                    Create Account
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </button>
             </div>
         </form>
-        <br>
-        <div class="field is-pulled-right">
-            <p class="control">
-                <button class="button is-primary has-text-white" (click)="onSignUpButtonClicked(emailInput.value, pwInput.value)">
-                    Sign Up
-                </button>
-            </p>
-        </div>
-        <div class="field has-text-centered mt-4">
-            <p>Already have an account? <a routerLink="/login" class="has-text-primary has-text-weight-bold">Login</a></p>
-        </div>
+
+        <p class="has-text-centered mt-4">
+            Already have an account? <a routerLink="/login">Sign in</a>
+        </p>
     </div>
 </div>

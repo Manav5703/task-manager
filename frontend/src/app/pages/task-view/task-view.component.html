@@ -1,17 +1,24 @@
-<div class="centered-content">
-    <!-- Logout button in top right corner -->
-    <button class="logout-button-topright button is-medium" (click)="onLogoutClick()">
-        <span class="icon">
-            <i class="fas fa-sign-out-alt"></i>
-        </span>
-        <span>Logout</span>
-    </button>
+<div class="app-header">
+    <div class="app-logo">
+        <img src="assets/icons/favicon.svg" alt="TaskFlow Pro Logo">
+        <h1 class="app-title">TaskFlow Pro</h1>
+    </div>
+    <div class="header-actions">
+        <button class="button is-small is-light logout-btn" (click)="onLogoutClick()">
+            <span class="icon is-small">
+                <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Logout</span>
+        </button>
+    </div>
+</div>
 
+<div class="centered-content">
     <div class="task-manager-container">
         <div class="sidebar has-background-white">
             <div class="sidebar-header">
-                <h1 class="title has-text-primary">
-                    Lists
+                <h1 class="section-title">
+                    LISTS
                 </h1>
             </div>
 
@@ -33,7 +40,7 @@
                 </a>
             </div>
             <br>
-            <button class="action-button button" routerLink="/new-list">
+            <button class="action-button button" (click)="openAddListModal()">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -43,8 +50,8 @@
 
         <div class="tasks-list-container has-background-light">
             <div class="top-bar">
-                <h1 class="title has-text-primary">
-                    Tasks
+                <h1 class="section-title">
+                    TASKS
                 </h1>
                 <div class="dropdown is-hoverable is-right custom-dropdown">
                     <div class="dropdown-trigger">
@@ -56,7 +63,7 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                         <div class="dropdown-content">
-                            <a routerLink="/edit-list/{{selectedListId}}" class="dropdown-item">
+                            <a (click)="openEditListModal()" class="dropdown-item">
                                 Edit list
                             </a>
                             <a (click)="onDeleteListClick()" class="dropdown-item has-text-danger"
@@ -65,6 +72,17 @@
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Task progress indicator -->
+            <div class="task-progress" *ngIf="tasks && tasks.length > 0">
+                <div class="progress-stats">
+                    <span class="completed-count">{{ getCompletedTasksCount() }} / {{ tasks.length }}</span>
+                    <span class="progress-text">tasks completed</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" [style.width.%]="getCompletionPercentage()"></div>
                 </div>
             </div>
 
@@ -90,10 +108,13 @@
                     <div *ngIf="tasks.length > 0">
                         <div class="task" *ngFor="let task of tasks" [ngClass]="{ 'completed': task.completed }">
                             <div class="task-content" (click)="onTaskClick(task)">
+                                <div class="task-status-icon">
+                                    <i class="fas" [ngClass]="task.completed ? 'fa-check-circle' : 'fa-circle'"></i>
+                                </div>
                                 <p>{{ task.title }}</p>
                             </div>
-                            <div class="task-buttons" style="display: flex; gap: 5px;">
-                                <button class="button is-small is-light" [routerLink]="['/lists', selectedListId, 'edit-task', task._id]">
+                            <div class="task-buttons">
+                                <button class="button is-small is-light" (click)="openEditTaskModal(task)">
                                     <span class="icon has-text-info">
                                         <i class="fas fa-edit"></i>
                                     </span>
@@ -114,11 +135,99 @@
                 </div>
             </div>
 
-            <button class="action-button-circle button" routerLink="./new-task" *ngIf="selectedListId">
+            <button class="action-button-circle button" (click)="openAddTaskModal()" *ngIf="selectedListId">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
             </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add List Modal -->
+<div class="modal" [ngClass]="{'is-active': showAddListModal}" (keydown.escape)="showAddListModal = false">
+    <div class="modal-background" (click)="showAddListModal = false"></div>
+    <div class="modal-card">
+        <div class="modal-box">
+            <h1 class="title">
+                Create a new list
+            </h1>
+            <div class="field">
+                <label class="label">List Name</label>
+                <div class="control">
+                    <input #newListInput class="input is-medium" type="text" placeholder="Enter list name" (keydown.enter)="createList(newListInput.value)">
+                </div>
+            </div>
+            <div class="buttons is-right">
+                <button class="button is-danger has-text-white is-medium" (click)="showAddListModal = false">Cancel</button>
+                <button class="button is-primary has-text-white is-medium" (click)="createList(newListInput.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Task Modal -->
+<div class="modal" [ngClass]="{'is-active': showAddTaskModal}" (keydown.escape)="showAddTaskModal = false">
+    <div class="modal-background" (click)="showAddTaskModal = false"></div>
+    <div class="modal-card">
+        <div class="modal-box">
+            <h1 class="title">
+                Create a new task
+            </h1>
+            <div class="field">
+                <label class="label">Task Name</label>
+                <div class="control">
+                    <input #newTaskInput class="input is-medium" type="text" placeholder="Enter task name" (keydown.enter)="createTask(newTaskInput.value)">
+                </div>
+            </div>
+            <div class="buttons is-right">
+                <button class="button is-danger has-text-white is-medium" (click)="showAddTaskModal = false">Cancel</button>
+                <button class="button is-primary has-text-white is-medium" (click)="createTask(newTaskInput.value)">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit List Modal -->
+<div class="modal" [ngClass]="{'is-active': showEditListModal}" (keydown.escape)="showEditListModal = false">
+    <div class="modal-background" (click)="showEditListModal = false"></div>
+    <div class="modal-card">
+        <div class="modal-box">
+            <h1 class="title">
+                Edit a list
+            </h1>
+            <div class="field">
+                <label class="label">List Name</label>
+                <div class="control">
+                    <input #editListInput class="input is-medium" type="text" placeholder="Enter list name" (keydown.enter)="updateList(editListInput.value)">
+                </div>
+            </div>
+            <div class="buttons is-right">
+                <button class="button is-danger has-text-white is-medium" (click)="showEditListModal = false">Cancel</button>
+                <button class="button is-primary has-text-white is-medium" (click)="updateList(editListInput.value)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Task Modal -->
+<div class="modal" [ngClass]="{'is-active': showEditTaskModal}" (keydown.escape)="showEditTaskModal = false">
+    <div class="modal-background" (click)="showEditTaskModal = false"></div>
+    <div class="modal-card">
+        <div class="modal-box">
+            <h1 class="title">
+                Edit a task
+            </h1>
+            <div class="field">
+                <label class="label">Task Name</label>
+                <div class="control">
+                    <input #editTaskInput class="input is-medium" type="text" placeholder="Enter task name" (keydown.enter)="updateTask(editTaskInput.value)">
+                </div>
+            </div>
+            <div class="buttons is-right">
+                <button class="button is-danger has-text-white is-medium" (click)="showEditTaskModal = false">Cancel</button>
+                <button class="button is-primary has-text-white is-medium" (click)="updateTask(editTaskInput.value)">Save</button>
+            </div>
         </div>
     </div>
 </div>

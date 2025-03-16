@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { TaskService } from '../../task.service';
 import { ActivatedRoute, Params, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -20,6 +20,16 @@ export class TaskViewComponent {
   selectedListId: string = '';
   loading: boolean = true;
   errorMessage: string = '';
+  showAddListModal: boolean = false;
+  showAddTaskModal: boolean = false;
+  showEditListModal: boolean = false;
+  showEditTaskModal: boolean = false;
+  selectedTask: any = null;
+
+  @ViewChild('newListInput') newListInput!: ElementRef;
+  @ViewChild('newTaskInput') newTaskInput!: ElementRef;
+  @ViewChild('editListInput') editListInput!: ElementRef;
+  @ViewChild('editTaskInput') editTaskInput!: ElementRef;
 
   constructor(
     private taskService: TaskService, 
@@ -192,5 +202,174 @@ export class TaskViewComponent {
         document.body.removeChild(notification);
       }, 300); // Wait for fade out animation
     }, 3000);
+  }
+
+  getCompletedTasksCount(): number {
+    if (!this.tasks) return 0;
+    return this.tasks.filter(task => task.completed).length;
+  }
+
+  getCompletionPercentage(): number {
+    if (!this.tasks || this.tasks.length === 0) return 0;
+    return Math.round((this.getCompletedTasksCount() / this.tasks.length) * 100);
+  }
+
+  createList(title: string) {
+    if (!title) {
+      this.errorMessage = 'Please enter a list name';
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.taskService.createList(title).subscribe({
+      next: (newList: List) => {
+        this.lists.push(newList);
+        this.loading = false;
+        this.showAddListModal = false;
+        this.showNotification('List created successfully');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.handleError(error, 'list creation');
+      }
+    });
+  }
+
+  createTask(title: string) {
+    if (!title) {
+      this.errorMessage = 'Please enter a task name';
+      return;
+    }
+
+    if (!this.selectedListId) {
+      this.errorMessage = 'Please select a list first';
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.taskService.createTask(title, this.selectedListId).subscribe({
+      next: (newTask: Task) => {
+        if (this.tasks) {
+          this.tasks.push(newTask);
+        } else {
+          this.tasks = [newTask];
+        }
+        this.loading = false;
+        this.showAddTaskModal = false;
+        this.showNotification('Task created successfully');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.handleError(error, 'task creation');
+      }
+    });
+  }
+
+  openAddListModal() {
+    this.showAddListModal = true;
+    setTimeout(() => {
+      this.newListInput.nativeElement.focus();
+    }, 100);
+  }
+  
+  openAddTaskModal() {
+    this.showAddTaskModal = true;
+    setTimeout(() => {
+      this.newTaskInput.nativeElement.focus();
+    }, 100);
+  }
+
+  openEditListModal() {
+    this.showEditListModal = true;
+    
+    // Find the current list to pre-populate the input
+    const currentList = this.lists.find(list => list._id === this.selectedListId);
+    
+    setTimeout(() => {
+      if (this.editListInput && currentList) {
+        this.editListInput.nativeElement.value = currentList.title;
+        this.editListInput.nativeElement.focus();
+      }
+    }, 100);
+  }
+  
+  openEditTaskModal(task: any) {
+    this.selectedTask = task;
+    this.showEditTaskModal = true;
+    
+    setTimeout(() => {
+      if (this.editTaskInput) {
+        this.editTaskInput.nativeElement.value = task.title;
+        this.editTaskInput.nativeElement.focus();
+      }
+    }, 100);
+  }
+  
+  updateList(title: string) {
+    if (!title) {
+      this.errorMessage = 'Please enter a list name';
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.taskService.updateList(this.selectedListId, title).subscribe({
+      next: () => {
+        // Update the list in the lists array
+        const listIndex = this.lists.findIndex(list => list._id === this.selectedListId);
+        if (listIndex !== -1) {
+          this.lists[listIndex].title = title;
+        }
+        
+        this.loading = false;
+        this.showEditListModal = false;
+        this.showNotification('List updated successfully');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.handleError(error, 'list update');
+      }
+    });
+  }
+  
+  updateTask(title: string) {
+    if (!title) {
+      this.errorMessage = 'Please enter a task name';
+      return;
+    }
+
+    if (!this.selectedTask) {
+      this.errorMessage = 'No task selected';
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.taskService.updateTask(this.selectedListId, this.selectedTask._id, title).subscribe({
+      next: () => {
+        // Update the task in the tasks array
+        if (this.tasks) {
+          const taskIndex = this.tasks.findIndex(task => task._id === this.selectedTask._id);
+          if (taskIndex !== -1) {
+            this.tasks[taskIndex].title = title;
+          }
+        }
+        
+        this.loading = false;
+        this.showEditTaskModal = false;
+        this.selectedTask = null;
+        this.showNotification('Task updated successfully');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.handleError(error, 'task update');
+      }
+    });
   }
 }
