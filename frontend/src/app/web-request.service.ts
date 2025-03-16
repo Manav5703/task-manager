@@ -1,33 +1,19 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { environment } from '../environments/environment';
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebRequestService {
 
-  private _rootUrl: string;
-  
-  get ROOT_URL(): string {
-    return this._rootUrl;
-  }
+  readonly ROOT_URL: string;
 
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigService
-  ) {
-    // Initialize with environment value, will be updated after config loads
-    this._rootUrl = environment.apiUrl;
-    
-    // Try to load config and update ROOT_URL
-    this.configService.loadConfig().then(() => {
-      this._rootUrl = this.configService.getApiUrl();
-      console.log('API URL set to:', this._rootUrl);
-    });
+  constructor(private http: HttpClient) {
+    this.ROOT_URL = environment.apiUrl;
+    console.log('API URL set to:', this.ROOT_URL);
   }
 
   get(url: string) {
@@ -53,6 +39,7 @@ export class WebRequestService {
       catchError(this.handleError.bind(this))
     );
   }
+  
   login(email: string, password: string) {
     return this.http.post(`${this.ROOT_URL}/users/login`, {
       email,
