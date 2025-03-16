@@ -1,7 +1,7 @@
 // main-styles.scss
 @use 'sass:color';
-@use 'fonts';
-// Fonts are already forwarded in _fonts.scss, no need to duplicate here
+@import 'fonts';
+// Fonts are already imported in _fonts.scss, no need to duplicate here
 
 // Modern Color Palette
 $primary-blue: #3B82F6;

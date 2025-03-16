@@ -1,5 +1,5 @@
 [build]
-  command = "cd frontend && npm install && npx ng build --configuration production"
+  command = "cd frontend && npm install && npm install glob && node fix-scss-imports.js && npx ng build --configuration production"
   publish = "frontend/dist/frontend/browser"
 
 [build.environment]
