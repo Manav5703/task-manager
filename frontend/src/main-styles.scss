@@ -1,8 +1,7 @@
 // main-styles.scss
 @use 'sass:color';
 @use 'fonts';
-@forward url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@forward url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&display=swap');
+// Fonts are already forwarded in _fonts.scss, no need to duplicate here
 
 // Modern Color Palette
 $primary-blue: #3B82F6;

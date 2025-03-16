@@ -2,11 +2,7 @@
 @use 'main-styles';
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
 
-/* Global font and styling rules */
-* {
-  font-family: "Funnel Sans", sans-serif;
-}
-
+/* Remove duplicate font declarations since they're already in main-styles */
 body, html {
   height: 100%;
   margin: 0;
@@ -43,3 +39,5 @@ body, html {
 p, h1, h2, h3, h4, h5, h6, span, a, button, input {
   font-family: "Funnel Sans", sans-serif !important;
 }
+
+/* Let main-styles handle font styling */
